@@ -2,7 +2,7 @@
 Have you ever wondered how AV knows what that the application you're trying to run is malicious when it doesn't have a known signature?
 NTDLL is the answer.
 
-![NTDLL](/_posts/images/proc-loading.png)
+![NTDLL](/assets/img/ntdll/proc-loading.png)
 
 # Before we begin
 It's the first post on the new website, and we finally can include Markdown code blocks! No more screenshots of code! 
