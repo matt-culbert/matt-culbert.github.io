@@ -82,7 +82,7 @@ A simple bypass though in this case is to replace ```syscall``` in the asm file 
 We'd replace ```syscall``` with a random string in the Syswhispers asm file and then at run time implement the egg-hunter to change our previously random string to ```syscall```.
 This definitely provides a high level of evasion, but you have to weigh the cost in time versus the advantage gained.
 
-##***References***
+***References***
 > https://www.codeproject.com/Articles/1191465/The-Quest-for-the-SSDTs
 > 
 > https://klezvirus.github.io/RedTeaming/AV_Evasion/NoSysWhisper/
