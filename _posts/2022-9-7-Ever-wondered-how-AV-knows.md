@@ -1,6 +1,7 @@
 # How Does AV Know?
 Have you ever wondered how AV knows what that the application you're trying to run is malicious when it doesn't have a known signature?
 NTDLL is the answer.
+
 ![NTDLL](/_posts/images/proc-loading.png)
 
 # Before we begin
