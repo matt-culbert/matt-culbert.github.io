@@ -9,7 +9,7 @@ This is something that has been discussed a lot before and probably won't be new
 
 ## What is NTDLL?
 In the simplest form, it exports the Windows Native API. 
-Since it would be incredibly insecure to allow user mode applications direct access to manipulate the kernel, Windows instead allows you to do so through the Native API which is then mapped to Syscalls.
+Since it would be incredibly insecure to allow user mode applications direct access to manipulate the kernel, Windows instead allows you to interact with it through the Native API which is then mapped to Syscalls.
 These Syscalls then are mapped via the system service descriptor table (SSDT) to the kernel functions memory address.
 Things like WriteProcessMemory or CreateRemoteThread all go through here and have their own NT API equivalent - NtWriteVirtualMemory and NtCreateThreadEx respectively.
 Then, once they have found their API equivalent call, the memory location that the loaded copy of NTDLL has is referenced.
@@ -20,7 +20,7 @@ So if you want to avoid NTDLL and use Syscalls, use Syswhisper - it cuts out the
 ## How does AV hook NTDLL?
 As indicated above, NTDLL is used for a bunch of internal actions so, for the EDR, setting interrupt points to examine what kind of API requests are being made is critical.
 Your typical EDR will modify the loaded version to allow it to send off suspicious function calls, such as below with CreateRemoteThread.
-![EDR Jump Point](https://www.mdsec.co.uk/wp-content/uploads/2019/03/9797A6D5-B1D8-4E1C-924D-797035C0A3D9-1024x123.png "https://www.mdsec.co.uk/2019/03/silencing-cylance-a-case-study-in-modern-edrs/")
+![https://www.mdsec.co.uk/2019/03/silencing-cylance-a-case-study-in-modern-edrs/](/assets/mdsec-edr-hook-example.png "EDR Jump Point")
 
 In this screenshot provided by MDSec, Cylance has implemented a jump point for this function call so that it can inspect what exactly is being performed before passing it back to the original process.
 EDR will typically do this for every function that can be abused. But each EDR is built differently so while Cylance might have this jmp here, perhaps Crowdstrike does not. Just something to keep in mind.
@@ -82,7 +82,7 @@ A simple bypass though in this case is to replace ```syscall``` in the asm file 
 We'd replace ```syscall``` with a random string in the Syswhispers asm file and then at run time implement the egg-hunter to change our previously random string to ```syscall```.
 This definitely provides a high level of evasion, but you have to weigh the cost in time versus the advantage gained.
 
-***References***
+##***References***
 > https://www.codeproject.com/Articles/1191465/The-Quest-for-the-SSDTs
 > 
 > https://klezvirus.github.io/RedTeaming/AV_Evasion/NoSysWhisper/
