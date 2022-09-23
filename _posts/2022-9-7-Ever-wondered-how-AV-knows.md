@@ -20,7 +20,7 @@ So if you want to avoid NTDLL and use Syscalls, use Syswhisper - it cuts out the
 ## How does AV hook NTDLL?
 As indicated above, NTDLL is used for a bunch of internal actions so, for the EDR, setting interrupt points to examine what kind of API requests are being made is critical.
 Your typical EDR will modify the loaded version to allow it to send off suspicious function calls, such as below with CreateRemoteThread.
-![https://www.mdsec.co.uk/2019/03/silencing-cylance-a-case-study-in-modern-edrs/](/images/mdsec-edr-hook-example.png "EDR Jump Point")
+![/images/mdsec-edr-hook-example.png](https://www.mdsec.co.uk/2019/03/silencing-cylance-a-case-study-in-modern-edrs/)
 
 In this screenshot provided by MDSec, Cylance has implemented a jump point for this function call so that it can inspect what exactly is being performed before passing it back to the original process.
 EDR will typically do this for every function that can be abused. But each EDR is built differently so while Cylance might have this jmp here, perhaps Crowdstrike does not. Just something to keep in mind.
