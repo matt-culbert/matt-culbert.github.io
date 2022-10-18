@@ -55,8 +55,5 @@ There are numerous other errors suggesting that the site was not coded by a nati
 back through the messages I received while trying to withdraw the BTC, there were a lot of small mistakes that are
 easy to overlook. Things like not capitalizing your "I" when used on its own, or how the sentence 
 "To reduce cases of error withdrawals from new portfolios" just reads very oddly. 
-The final issue I had found was that I could only get that transaction verification message to appear one time. Every other
-time I would try and send to a new account, I would get the other error that the transaction would bring me below my minimum.
-This just further reinforced to me that the site owners had only deposited enough to cover one transaction.
 
 It was fun for a time to pretend I was a Bitcoin millionaire though.
