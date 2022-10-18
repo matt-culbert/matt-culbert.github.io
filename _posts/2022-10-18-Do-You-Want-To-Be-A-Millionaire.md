@@ -1,6 +1,6 @@
 # Do You Want To Be A Millionaire?
 
-I got the weirdest phishing email the other day. It was a link to a cryptocurrency exchange with a username
+I got the weirdest phishing email the other day. It was a link to a cryptocurrency exchange called protoncoin[.]net with a username
 and password. So naturally, I chose to go there and attempt to log in! They wanted a new phone number to enable MFA
 since the account had such a large amount of money, so I made a fake number and set that up. I finally log in, and what
 do I see?
