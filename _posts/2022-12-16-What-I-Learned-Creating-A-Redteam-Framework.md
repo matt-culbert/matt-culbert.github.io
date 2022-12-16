@@ -13,6 +13,8 @@ programming and decisions made.
 
 # Breaking It Down
 
+Let's break down all the pieces into their respective chunks for an easier time analysing them.
+
 ## The Backend
 
 A good solid backend is critical to a functioning redteam framework. Without a management system that works and remembers what beacon is what,
