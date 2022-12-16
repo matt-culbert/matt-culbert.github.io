@@ -11,6 +11,8 @@ simple executable and netcat listener. And now we're here!
 Be forewarned, if you don't like programming, the whole rest of this is dedicated to talk about
 programming and decisions made.
 
+# Breaking It Down
+
 ## The Backend
 
 A good solid backend is critical to a functioning redteam framework. Without a management system that works and remembers what beacon is what,
