@@ -218,13 +218,13 @@ The beacon is the most critical part to a redteam framework. If it's poorly writ
 completely negating any benefits gained from performing these emulations. Upper management is already hesitant to do such tests, so 
 poorly run ones will only further cement why they dislike them.
 Diving into the beacon, it was rewritten in two new languages for this. That was Go and C#.
-I had a few different motivations for doing so. The primary one was I felt like I reached the limits of Python. If I wanted to do any more speciali evasion stuff,
+I had a few different motivations for doing so. The primary one was I felt like I reached the limits of Python. If I wanted to do any more specialized evasion stuff,
 I would need to import CTypes and at that point, why not just use C right? Additionally, with Go and C#, I could build the final beacon to be compatible for
-any system as opposed to *just* an .exe for Windows or *just* a .py script for *Nix systems.
+any system as opposed to *just* an .exe for Windows or *just* a .py script for *Nix* systems.
 The final overarching reason for doing so was also just to learn more. C# is incredibly powerful as outlined in previous posts here and elsewhere.
-You can unhook NTDLL, overwrite memory locations with what you think should go there, inject shellcode, and so on.
+You can unhook NTDLL, overwrite memory locations with what you think should go there, inject shellcode, and so on. Also note, a big reason that Virustotal does not flag these files is not because of any special evasion implemented, but because of their previously unknown structure making static analysis almost useless.
 
-###Let's start with how it went with Go first.
+### Let's start with how it went with Go first.
 
 Go was without a doubt far quicker to transition from Python to than C#. The syntax was very similar and libraries felt like they functioned 
 much the same way. For instance, a GET request in Go would look like this:
@@ -293,7 +293,7 @@ from it are very hard for AV to detect. This is due to them statically linking a
 size up past what some AV's can handle scanning. This isn't a new tactic either, the [Commie malware family padded 64MB of data](https://unit42.paloaltonetworks.com/unit42-comnie-continues-target-organizations-east-asia/) 
 to their compiled executables in order to avoid being scanned.
 
-###Now how did it go with C#?
+### Now how did it go with C#?
 
 I originally wanted to use C++ for this actually, but encountered a number of issues that C# had already resolved.
 The crux of the Switchblade communication design is GET and POST web requests and, surprisingly, C++ does not have an easy native
