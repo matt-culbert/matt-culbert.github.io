@@ -104,7 +104,7 @@ a file from disk.
 The second is what they call `writeGoodBytes`. This function takes a process name and a few other variables and proceeds 
 to reload the clean version of a dll into the current processes memory through the first function mentioned. 
 This is called through `err := evasion.RefreshPE('c:\windows\system32\ntdll.dll')`. Do note, to do this they allocated RWX
-memory sections, which will set off EDR.
+memory sections, which will set off EDR. Havoc also allocates memory in the same way, so it's a knock against both.
 
 Now that we have an idea of how things are executed, we can go back to loading our shellcode into the resource section of 
 our executable. Without even encrypting it, we see a strikingly lower detection rate than Havocs shellcode loaded the same way.
