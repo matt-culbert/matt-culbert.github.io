@@ -9,9 +9,9 @@ Havoc is a much newer tool developed by three independent contributors that was 
 Both teams are responsive to questions and issues and, since they're open source, you are free to expand on them
 as you need. With that said, the first question that should be answered is how easy is it to spin one of these up?
 
-##How easy is it to spin one up and get going vs the other?
+## How easy is it to spin one up and get going vs the other?
 
-###Havoc
+### Havoc
 - Havoc utilizes team profiles at launch to dictate implant functionality
 - The documentation is fairly well laid out, but online only.
 - You should have prior knowledge with C++ and implementing bypass techniques
@@ -68,7 +68,7 @@ only maintaned by three people and doesn't have a company backing it like Bishop
 you are to encounter it in an enterprise. For those who really enjoy working in a GUI though, this will definitely 
 scratch that itch.
 
-###Sliver
+### Sliver
 Let's now shift a little and check out Sliver.
 
 - Sliver is completely terminal based meaning if you need a GUI to be able to visualize things, this won't work for you.
@@ -128,16 +128,16 @@ the software while staying within their ecosystem such as with BOFs. It's no sur
 onto this framework and are integrating it with more and more campaigns. Microsoft has even noted that it is being used
 in tandem with Cobaltstrike in some attacks.
 
-##How can you expand on them?
+## How can you expand on them?
 
-###Havoc
+### Havoc
 Custom agents are a little tricky to figure out but there are examples provided. It will take some trial and error on your
 end to determine the exact way to call arguments and add functionality, but CodeXTF2 was [kind enough to include their own
 demo agent](https://github.com/CodeXTF2/PyHmmm) written in Python as a demonstration for ease of understanding. Aside from
 custom agents, if you wish to add your own functionality to the teamserver, the codebase is vast and somewhat poorly 
 commented which makes customization not the easiest.
 
-###Sliver
+### Sliver
 Sliver allows you to use beacon object files from Cobaltstrike to extend the post exploitation capabilities of the
 framework. While this isn't necessarily a custom agent, this allows customization of agents to add further capabilities.
 To the unfamiliar, BOF are compiled C programs that are position independent code. Meaning that like Donut, no matter
@@ -150,9 +150,9 @@ it's only marginally better commented with comments above primary functions desc
 This is disappointing to see, I wish commenting code was a more common practice as it helps new people get up to speed
 with each functions purpose much quicker.
 
-##Why might you want one over the other?
+## Why might you want one over the other?
 
-###Havoc
+### Havoc
 - The GUI is very intuitive and well thought out.
 - Visualizing compromised machines and SSH tunnels was intelligently setup.
 - Less can be more. Giving people less to work with means they go deeper on working with what they have. Breeds innovation.
@@ -164,7 +164,7 @@ than Slivers method of saving configurations for listeners and implants by havin
 technique of hosts and URIs is also very clever, allowing much more randomness to be added, which it makes the defenders
 job that much harder.
 
-###Sliver
+### Sliver
 - Multi platform framework.
 - Deeper resources to put into development.
 - BOFs implementation is very smooth.
