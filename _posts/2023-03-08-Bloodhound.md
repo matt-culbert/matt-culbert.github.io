@@ -1,3 +1,9 @@
+---
+title: Bloodhound basics
+date: 2023-03-08
+categories: [beginner, offensive-security]
+---
+
 # Bloodhound
 ### What is it?
 Bloodhound describes their product as using graph theory to reveal hidden and unintended links between users and groups that makes lateral movement easier for attackers. Naturally this is fantastic for defenders as well since you can view these paths and preemptively close them off or create alerting around when they're traversed.
