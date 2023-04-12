@@ -1,3 +1,10 @@
+---
+title: Sliver vs Havoc
+date: 2023-01-13
+categories: [redteam,TECHNICAL, offensive-security]
+tags: [redteam]     # TAG names should always be lowercase
+---
+
 # Sliver vs Havoc - Two Adversary Emulation Frameworks
 
 I wanted to objectively measure two well known frameworks against one another and see which fits certain needs best. 
