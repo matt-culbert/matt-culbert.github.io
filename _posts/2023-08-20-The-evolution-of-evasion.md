@@ -63,7 +63,7 @@ at each stage. In fact, after infection, the computer is not run by itself more:
 it is
 GRAYFISH that runs it step by step, making the necessary changes on the fly.
 
-![Architecture](/assets/img/evasion-tech/GRAYFISH-arch.png)
+![Architecture](/assets/img/evasion-tech/grayfish-arch.png)
 
 Normally, user space apps are not allowed to execute with ring 0 privileges. GRAYFISH bypassed this by leveraging a vulnerable driver, a technique now known as bring your own vulnerable driver (BYOVD.) This allowed the actors to execute their tools as the highest privilege available.
 
