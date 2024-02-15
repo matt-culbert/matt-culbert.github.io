@@ -59,10 +59,8 @@ It sucks when keys and infrastructure gets burned, so I never understood why mor
 
 ## What does the future hold
 
-RSA is inherently a poor algorithm choice. While the implementation in Dagger is not terrible, upgrading this to ECDSA is a big priority. Check out the following two links for more on why: 
-
-[Seriously, stop using RSA | Trail of Bits Blog](https://blog.trailofbits.com/2019/07/08/fuck-rsa/) 
-
+RSA is inherently a poor algorithm choice. While the implementation in Dagger is not terrible, upgrading this to ECDSA is a big priority. Check out the following two links for more on why 
+[Seriously, stop using RSA - Trail of Bits Blog](https://blog.trailofbits.com/2019/07/08/fuck-rsa/) 
 [Using RSA Securely in 2022 - Dhole Moments](https://soatok.blog/2022/02/09/using-rsa-securely-in-2022/) 
 
 There are some core areas that Dagger is lacking. Things like support for lateral movement techniques outside of copying the implant to another directory and getting another user to run it. Up to this point, the commands that Dagger supports has been misusing the OS package since so much functionality exists there in a simple form. However for more complicated actions like lateral movement, this will no longer suffice. Anything to do with COM or SMB or general remote management is stepping into the custom library territory.
