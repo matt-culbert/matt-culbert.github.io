@@ -9,7 +9,7 @@ By the end of this post, I hope to have accomplished two goals. The first is giv
 
 Bear with me through the setup process, there's a lot that needs to be done before moving onto the fun bit of actually writing these rules. If you want to skip the setup for OPNsense and go straight to the section on generating traffic samples and writing detections, [you can click here](#generating-and-analyzing-attack-traffic) or just scroll down to the relevant parts. There is also a ton of setup required for enabling Lua for Suricata, and that has its own section dedicated to it.
 
-> [!WARNING] 
+> **NOTE**
 > There is an assumption of baseline skills or the ability to search unknown terms and learn on the fly. Things like CIDR notation, what a subnet is, how to exit Vi, that won't be reviewed. 
 
 # The Hypervisor
@@ -52,8 +52,8 @@ Next, it's time to setup OPNsense, Kali, and a victim machine to emulate attack 
 
 ## OPNsense
 
->[!TIP]
->In this section, you may see IP mismatches between what's written in one place versus another. For example, one image shows the `WAN` as `10.1.1.3` and another shows it set to `10.1.1.5`. This is because I rebuilt OPNsense to get more documentation pictures and didn't stick with the same exact IPs, don't read too much into it 
+> **TIP**
+> In this section, you may see IP mismatches between what's written in one place versus another. For example, one image shows the `WAN` as `10.1.1.3` and another shows it set to `10.1.1.5`. This is because I rebuilt OPNsense to get more documentation pictures and didn't stick with the same exact IPs, don't read too much into it 
 
 The OPNsense VM is going to be our route to the internet for the two unconfigured `VNets` created when setting up the Proxmox networks in the hypervisor step. I chose OPNsense because of issues with PFSense that cropped up after Netgate took over, but a lot of the steps I will go through below are probably translatable from one to the other if you feel more confident using PFSense. My OPNsense VM has two cores, 8GB of RAM, and 64GB of storage. I also configured it with three network adapters, assigning each to a `VNet`. 
 
@@ -140,8 +140,8 @@ There's so much more to rules than that brief example, but I think it's more ben
 
 ![ja3_sample_output.png](/assets/img/detection_lab/ja3_sample_output.png)
 
->[!TIP]
->We will enable JA4 signatures later on when we re-install Suricata as part of the process for enabling Lua
+> **NOTE**
+> We will enable JA4 signatures later on when we re-install Suricata as part of the process for enabling Lua
 
 For each stream in the PCAP, `JA3` outputs some details about the source and destination and two fingerprints of the server. The `digest` field is what will be used for the next rule we will create. These are easy to include in rules, just specify the `ja3.hash` flag followed by a `content` flag containing that `digest`:
 ``` suricata
@@ -210,12 +210,13 @@ ln -sf /usr/local/lib/liblua-5.4.so /usr/local/lib/liblua54.so
 ln -sf /usr/local/libdata/pkgconfig/lua-5.4.pc /usr/local/libdata/pkgconfig/lua.pc
 ```
 
->[!WARNING]
->The file `lauxlib.h` is not misspelled and you may have misread it the first time. Trying to look out for all the other people reading things too quickly like myself.
+> **WARNING**
+> The file `lauxlib.h` is not misspelled and you may have misread it the first time. Trying to look out for all the other people reading things too quickly like myself.
 
 We're getting close to the end, I promise.  Two more edits to make sure Lua can be found. Still in your new Suricata directory, run `setenv LUA_CFLAGS "-I/usr/local/include/lua5.4"` and `setenv LUA_LIBS "-L/usr/local/lib -llua-5.4"`. These are to set compiler flags in the `Makefile`. Now it's finally time to run configure `./configure --enable-lua --with-lua=/usr/local/lib` followed by `make && make install-full` to complete the setup. Then just restart the service and when `suricata --build-info | grep LUA` is run again, it shows as enabled.
->[!TIP]
->Some of the absolute paths I have used may be different for you. If you use one and find that it results in an error while running `make`, be sure to re-run `configure` after each adjustment you do before you try and run `make` again. Some errors may require you to go back a step further and run `./autogen.sh` before `configure`. When all else fails, start from the top with `make clean`, followed by `./autogen.sh`, `configure`, and `make`
+
+> **NOTE**
+> Some of the absolute paths I have used may be different for you. If you use one and find that it results in an error while running `make`, be sure to re-run `configure` after each adjustment you do before you try and run `make` again. Some errors may require you to go back a step further and run `./autogen.sh` before `configure`. When all else fails, start from the top with `make clean`, followed by `./autogen.sh`, `configure`, and `make`
 
 In addition to Lua being enabled, if you run `suricata --build-info | grep yes` you can see all the enabled components. Among these, `JA4` is there.
 ## Writing Lua Scripts
