@@ -9,7 +9,7 @@ By the end of this post, I hope to have accomplished two goals. The first is giv
 
 Bear with me through the setup process, there's a lot that needs to be done before moving onto the fun bit of actually writing these rules. If you want to skip the setup for OPNsense and go straight to the section on generating traffic samples and writing detections, [you can click here](#generating-and-analyzing-attack-traffic) or just scroll down to the relevant parts. There is also a ton of setup required for enabling Lua for Suricata, and that has its own section dedicated to it.
 
-> [!IMPORTANT] 
+> [!WARNING] 
 > There is an assumption of baseline skills or the ability to search unknown terms and learn on the fly. Things like CIDR notation, what a subnet is, how to exit Vi, that won't be reviewed. 
 
 # The Hypervisor
