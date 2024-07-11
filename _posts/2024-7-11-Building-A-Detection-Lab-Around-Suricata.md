@@ -1,5 +1,4 @@
-Building A Detection Lab Around Suricata
----
+# Building A Detection Lab Around Suricata
 
 A while back there were a flurry of posts from different people about how they were configuring their homelabs, rebuilding them to do X better than something else normally used, and automating this and that. My interest was piqued since I hadn't played around with my equipment in a while, so I started writing up a post of my own in order to join the fray. Obviously I had to differentiate myself so I chose to focus on the networking aspect of homelabs and started configuring OPNsense. The original goal wasn't to focus on Suricata, just to briefly mention it before moving on to other things. 
 
@@ -12,7 +11,7 @@ Bear with me through the setup process, there's a lot that needs to be done befo
 > **NOTE**
 > There is an assumption of baseline skills or the ability to search unknown terms and learn on the fly. Things like CIDR notation, what a subnet is, how to exit Vi, that won't be reviewed. 
 
-# The Hypervisor
+## The Hypervisor
 
 Starting from the top, the hypervisor being used. I am choosing to use Proxmox. Proxmox ships with their enterprise updates configured, so if you don't have a license you will need to disable these. Don't skip this step, it's important to make sure that you're updating from the correct repositories otherwise you won't get any updates. Proxmox [outlines the process here](https://pve.proxmox.com/wiki/Package_Repositories) but I've also included a brief summary of the steps below. Note that `bookworm` is the latest release I am configuring but in the future this will change. Adjust to your needs.
 
@@ -46,7 +45,7 @@ With that set, under `SDN` navigate to `VNets`. This is where `SNAT` will be con
 
 After all of these steps are completed, navigate up one menu to the `SDN` and make sure you hit `apply` to apply the changes made. 
 
-# The VMs 
+## The VMs 
 
 Next, it's time to setup OPNsense, Kali, and a victim machine to emulate attack traffic to. The victim machine can be anything you want, I chose to use a clone of my Kali machine and set it up on the 3rd `VNet`, `OPNS2`, to emulate what cross interface traffic looks like.
 
@@ -101,7 +100,7 @@ Assuming you have your attack box on the `LAN` interface for OPNsense, navigate 
 
 You're ready to begin with your attack traffic analysis and rule creation! 
 
-# Generating And Analyzing Attack Traffic
+## Generating And Analyzing Attack Traffic
 
 Now that the different boxes are ready, OPNsense is configured, and traffic is flowing, let's dive into Suricata. There's been quite a lot of setup leading up to this but it'll all have been worth it. Ensuring the lab is configured properly for routing and analyzing traffic is much more arduous than the actual rule writing. 
 
@@ -177,7 +176,7 @@ Hmm this alert is quite noisy but there is a `type` set already as `threshold` w
 
 Now there should only be one alert per tracked source IP every minute. This can be further adjusted as you see fit for your environment and be done for any rule you need. Which brings us to the crux of Suricata. When writing rules, your environments uniqueness is your strength. You may find that the provided rules here are loud and alert on false positives without additional tuning. That's the great thing though about these rules, the patterns I set here only picked up the traffic I needed it to.  This is only the surface of Suricata and OPNsense - we haven't even touched the Lua scripting engine that can have traffic offloaded to it for further alert and log generation.
 
-# Lua
+## Lua
 
 Configuring Suricata to support Lua took maybe the longest part of this whole writeup. There's little documentation I've found from people who have added Lua support to OPNsense instances running the Suricata IDS so, through a *lot* of trial and error, I've tried to document the process here as fully as I can. I've walked through these steps a number of times on a fresh VM so I feel fairly confident nothing is missing. If you want to skip the manual configuration, I've also compiled the below steps into a `sh` script that [can be downloaded from my Git here](https://github.com/matt-culbert/suricata_rules/blob/main/lua_setup.sh). 
 
@@ -253,7 +252,7 @@ The alert looks for an established flow, which just means that the connection is
 
 There's more than just alerting however, there's also the option to generate robust log information. By changing the `init` function from `needs["tls"] = tostring(true)` to `needs["protocol"] = "tls"`  and the `match` function to `log`, you can now generate log messages for certain traffic patterns. The `log` scripts are more involved than `match` scripts as they also require additional `setup` functions and `deinit` functions, but it's not a big jump in difficulty. These will be explored more in later posts.
 
-# Wrapping Up
+## Wrapping Up
 
 And that's it! I would say more than half the guide is dedicated to the proper configuration, but having that correct means way less headaches down the line. I'd add more to the Lua and Suricata sections but this post is very long as is. Best to save that for a future post instead.
 
