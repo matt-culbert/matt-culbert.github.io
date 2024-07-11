@@ -7,10 +7,11 @@ As building OPNsense progressed, I found the documentation around Suricata's use
 
 By the end of this post, I hope to have accomplished two goals. The first is giving the reader a better alternative to a generic traffic log collection endpoint by setting up OPNsense. OPNsense comes with a log management system preconfigured that will be on par with any other free solution you want to ship them off to. The second goal is to learn more about alerting and counter measures to malware traffic. Suricata has a lot of options available to you with a bit of tinkering. While this post will focus primarily on the pre-requisite setup, more posts down the line will dive deep into network based countermeasures. Don't fret, there will be some discussion on rules and their corresponding alerts.
 
-Bear with me through the setup process, there's a lot that needs to be done before moving onto the fun bit of actually writing these rules. If you want to skip the setup for OPNsense and go straight to the section on generating traffic samples and writing detections, [you can click here](# Generating & Analyzing Attack Traffic) or just scroll down to the relevant parts. There is also a ton of setup required for enabling Lua for Suricata, and that has its own section dedicated to it.
+Bear with me through the setup process, there's a lot that needs to be done before moving onto the fun bit of actually writing these rules. If you want to skip the setup for OPNsense and go straight to the section on generating traffic samples and writing detections, [you can click here](# Generating And Analyzing Attack Traffic) or just scroll down to the relevant parts. There is also a ton of setup required for enabling Lua for Suricata, and that has its own section dedicated to it.
 
 >[!IMPORTANT]
 >There is an assumption of baseline skills or the ability to search unknown terms and learn on the fly. Things like CIDR notation, what a subnet is, how to exit Vi, that won't be reviewed. 
+
 # The Hypervisor
 
 Starting from the top, the hypervisor being used. I am choosing to use Proxmox. Proxmox ships with their enterprise updates configured, so if you don't have a license you will need to disable these. Don't skip this step, it's important to make sure that you're updating from the correct repositories otherwise you won't get any updates. Proxmox [outlines the process here](https://pve.proxmox.com/wiki/Package_Repositories) but I've also included a brief summary of the steps below. Note that `bookworm` is the latest release I am configuring but in the future this will change. Adjust to your needs.
@@ -44,9 +45,11 @@ With that set, under `SDN` navigate to `VNets`. This is where `SNAT` will be con
 ![pxmx_vnet.png](/assets/img/detection_lab/pxmx_vnet.png)
 
 After all of these steps are completed, navigate up one menu to the `SDN` and make sure you hit `apply` to apply the changes made. 
+
 # The VMs 
 
 Next, it's time to setup OPNsense, Kali, and a victim machine to emulate attack traffic to. The victim machine can be anything you want, I chose to use a clone of my Kali machine and set it up on the 3rd `VNet`, `OPNS2`, to emulate what cross interface traffic looks like.
+
 ## OPNsense
 
 >[!TIP]
@@ -81,6 +84,7 @@ With the `WAN` configured, now do the same steps for the `LAN` and `OPT1` interf
 ![opns_final_conf.png](/assets/img/detection_lab/opns_final_conf.png)
 
 That's it for now in the OPNsense terminal, now for our attack box.
+
 ## The Attack Box
 
 This parts the easiest of the whole guide. For the attack box I suggest assigning 4GB of RAM and 2 processors, but this is really preference. Add a new Kali virtual machine and edit the network device so that it uses the LAN bridge configured for OPNsense. This will allow you to reach the OPNsense web management interface and you will have a route from the 172.16.1.0 network through the 10.1.1.0 network out to the internet.
@@ -88,6 +92,7 @@ This parts the easiest of the whole guide. For the attack box I suggest assignin
 ![route-to-internet.png](/assets/img/detection_lab/route-to-internet.png)
 
 For the C2, I want to write Suricata rules relevant to my personal tools, so I'll be using CloakNDagger. Feel free to use whatever you would prefer though instead.
+
 ## Final Clean Up Steps
 
 Assuming you have your attack box on the `LAN` interface for OPNsense, navigate to the gateway IP in your web browser and login with the username `root` and the same password you've been using. I suggest skipping the Wizard you're prompted to go through on first login. After that, navigate to `Firewall -> Rules -> InterfaceName` and add two rules to both the internal interfaces that allow traffic in and out unrestricted. Next, navigate to `Services -> Intrusion Detection -> Administration -> Settings tab`, turn the IDS on by checking `Enabled`, and then make sure the interfaces that you setup are selected. Mine looks like the below:
@@ -95,12 +100,15 @@ Assuming you have your attack box on the `LAN` interface for OPNsense, navigate 
 ![ids_administration.png](/assets/img/detection_lab/ids_administration.png)
 
 You're ready to begin with your attack traffic analysis and rule creation! 
-# Generating & Analyzing Attack Traffic
+
+# Generating And Analyzing Attack Traffic
 
 Now that the different boxes are ready, OPNsense is configured, and traffic is flowing, let's dive into Suricata. There's been quite a lot of setup leading up to this but it'll all have been worth it. Ensuring the lab is configured properly for routing and analyzing traffic is much more arduous than the actual rule writing. 
+
 ## The Attack Traffic
 
 Using your C2 of choice, setup a listener and generate a standard payload. Send the payload over to your victim machine and, when you start getting traffic back, you're ready to begin some monitoring. Go back to the OPNsense web GUI and take a look at traffic flowing through the firewall using `Firewall -> Log Files -> live View`. If you don't see interface to interface traffic and are not getting implant responses, then a firewall rule is probably denying it.
+
 ## Suricata Rules
 
 Once you've confirmed traffic is flowing from your C2 to the victim machine, you're ready to start writing Suricata rules. But like everything else in this writeup, there's a couple prerequisite steps to complete first. Adding custom rules to Suricata is not as simple as writing one and pasting it into the interface. There's a few methods available but the one I will walk through requires you to host your rule files in a Git repo and to add an XML file to Suricata's OPNsense configuration. You can follow [the forum post here](https://forum.opnsense.org/index.php?topic=7209.0) for the forum thread on adding your custom rules but again I've documented the pertinent information below. Thanks, as always, to the original author `dcol`.
