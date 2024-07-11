@@ -218,7 +218,8 @@ We're getting close to the end, I promise.  Two more edits to make sure Lua can 
 > Some of the absolute paths I have used may be different for you. If you use one and find that it results in an error while running `make`, be sure to re-run `configure` after each adjustment you do before you try and run `make` again. Some errors may require you to go back a step further and run `./autogen.sh` before `configure`. When all else fails, start from the top with `make clean`, followed by `./autogen.sh`, `configure`, and `make`
 
 In addition to Lua being enabled, if you run `suricata --build-info | grep yes` you can see all the enabled components. Among these, `JA4` is there.
-## Writing Lua Scripts
+
+### Writing Lua Scripts
 
 So you've got Lua enabled, but what does a Lua script look like? Suricata's [documentation is seriously your biggest asset](https://docs.suricata.io/en/suricata-6.0.18/rules/rule-lua-scripting.html#lua-scripting), use it, love it, cherish it. All scripts require an `init` function in them which determines which piece of the packet to pull in. For this example, it will be for generating an alert. Alerting has stripped down requirements versus generating a log entry. Note that, depending on what you want to alert on, different packet properties have different `needs`. For instance, to analyze TLS packets, the `init` function would look like the following:
 ```lua
