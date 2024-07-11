@@ -50,7 +50,7 @@ After all of these steps are completed, navigate up one menu to the `SDN` and ma
 
 Next, it's time to setup OPNsense, Kali, and a victim machine to emulate attack traffic to. The victim machine can be anything you want, I chose to use a clone of my Kali machine and set it up on the 3rd `VNet`, `OPNS2`, to emulate what cross interface traffic looks like.
 
-## OPNsense
+### OPNsense
 
 > **TIP**
 > In this section, you may see IP mismatches between what's written in one place versus another. For example, one image shows the `WAN` as `10.1.1.3` and another shows it set to `10.1.1.5`. This is because I rebuilt OPNsense to get more documentation pictures and didn't stick with the same exact IPs, don't read too much into it 
@@ -85,7 +85,7 @@ With the `WAN` configured, now do the same steps for the `LAN` and `OPT1` interf
 
 That's it for now in the OPNsense terminal, now for our attack box.
 
-## The Attack Box
+### The Attack Box
 
 This parts the easiest of the whole guide. For the attack box I suggest assigning 4GB of RAM and 2 processors, but this is really preference. Add a new Kali virtual machine and edit the network device so that it uses the LAN bridge configured for OPNsense. This will allow you to reach the OPNsense web management interface and you will have a route from the 172.16.1.0 network through the 10.1.1.0 network out to the internet.
 
@@ -93,7 +93,7 @@ This parts the easiest of the whole guide. For the attack box I suggest assignin
 
 For the C2, I want to write Suricata rules relevant to my personal tools, so I'll be using CloakNDagger. Feel free to use whatever you would prefer though instead.
 
-## Final Clean Up Steps
+### Final Clean Up Steps
 
 Assuming you have your attack box on the `LAN` interface for OPNsense, navigate to the gateway IP in your web browser and login with the username `root` and the same password you've been using. I suggest skipping the Wizard you're prompted to go through on first login. After that, navigate to `Firewall -> Rules -> InterfaceName` and add two rules to both the internal interfaces that allow traffic in and out unrestricted. Next, navigate to `Services -> Intrusion Detection -> Administration -> Settings tab`, turn the IDS on by checking `Enabled`, and then make sure the interfaces that you setup are selected. Mine looks like the below:
 
@@ -105,11 +105,11 @@ You're ready to begin with your attack traffic analysis and rule creation!
 
 Now that the different boxes are ready, OPNsense is configured, and traffic is flowing, let's dive into Suricata. There's been quite a lot of setup leading up to this but it'll all have been worth it. Ensuring the lab is configured properly for routing and analyzing traffic is much more arduous than the actual rule writing. 
 
-## The Attack Traffic
+### The Attack Traffic
 
 Using your C2 of choice, setup a listener and generate a standard payload. Send the payload over to your victim machine and, when you start getting traffic back, you're ready to begin some monitoring. Go back to the OPNsense web GUI and take a look at traffic flowing through the firewall using `Firewall -> Log Files -> live View`. If you don't see interface to interface traffic and are not getting implant responses, then a firewall rule is probably denying it.
 
-## Suricata Rules
+### Suricata Rules
 
 Once you've confirmed traffic is flowing from your C2 to the victim machine, you're ready to start writing Suricata rules. But like everything else in this writeup, there's a couple prerequisite steps to complete first. Adding custom rules to Suricata is not as simple as writing one and pasting it into the interface. There's a few methods available but the one I will walk through requires you to host your rule files in a Git repo and to add an XML file to Suricata's OPNsense configuration. You can follow [the forum post here](https://forum.opnsense.org/index.php?topic=7209.0) for the forum thread on adding your custom rules but again I've documented the pertinent information below. Thanks, as always, to the original author `dcol`.
 
@@ -181,7 +181,7 @@ Now there should only be one alert per tracked source IP every minute. This can 
 
 Configuring Suricata to support Lua took maybe the longest part of this whole writeup. There's little documentation I've found from people who have added Lua support to OPNsense instances running the Suricata IDS so, through a *lot* of trial and error, I've tried to document the process here as fully as I can. I've walked through these steps a number of times on a fresh VM so I feel fairly confident nothing is missing. If you want to skip the manual configuration, I've also compiled the below steps into a `sh` script that [can be downloaded from my Git here](https://github.com/matt-culbert/suricata_rules/blob/main/lua_setup.sh). 
 
-## Configuring Lua Support
+### Configuring Lua Support
 
 Out of the box, Lua support is not enabled. You can check this by running `suricata --build-info | grep LUA` and you will get an output like the following (if yours *is* enabled, congrats!):
 
