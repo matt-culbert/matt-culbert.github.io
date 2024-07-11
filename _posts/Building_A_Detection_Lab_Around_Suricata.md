@@ -47,7 +47,7 @@ After all of these steps are completed, navigate up one menu to the `SDN` and ma
 Next, it's time to setup OPNsense, Kali, and a victim machine to emulate attack traffic to. The victim machine can be anything you want, I chose to use a clone of my Kali machine and set it up on the 3rd `VNet`, `OPNS2`, to emulate what cross interface traffic looks like.
 ## OPNsense
 
->[!INFO]
+>[!TIP]
 >In this section, you may see IP mismatches between what's written in one place versus another. For example, one image shows the `WAN` as `10.1.1.3` and another shows it set to `10.1.1.5`. This is because I rebuilt OPNsense to get more documentation pictures and didn't stick with the same exact IPs, don't read too much into it 
 
 The OPNsense VM is going to be our route to the internet for the two unconfigured `VNets` created when setting up the Proxmox networks in the hypervisor step. I chose OPNsense because of issues with PFSense that cropped up after Netgate took over, but a lot of the steps I will go through below are probably translatable from one to the other if you feel more confident using PFSense. My OPNsense VM has two cores, 8GB of RAM, and 64GB of storage. I also configured it with three network adapters, assigning each to a `VNet`. 
@@ -118,7 +118,7 @@ Add the rule to your Git repo and wait for the `githubusercontent` domain to upd
 
 There's so much more to rules than that brief example, but I think it's more beneficial to look at them in context to the scenario we've setup. First, we need to get an idea of what the C2 traffic looks like on the wire. OPNsense has a built in tool for just such an occasion. Under `Interfaces -> Diagnostics -> Packet Capture` you have the option to launch a packet capture for any interface. Select the appropriate one and, with C2 traffic running between it and your victim machine, begin the PCAP. After a sufficient amount of time with check-ins and command execution, there should be enough data in the PCAP so stop it, download it, and open it in Wireshark. There's a lot that CloakNDagger gives defenders to begin searching for it on the wire. The first and easiest place to look at is the default certificate that it ships with. Just generate a JA3 fingerprint which Suricata can then use for alerts. Install `JA3` on the machine you're using to look at the PCAP with `pip install pyja3` and run `ja3 -a <pcap>`. The `-a` flag is required to find the `client Hello's` on any port:
 ![ja3_sample_output.png](/assets/img/detection_lab/ja3_sample_output.png)
->[!INFO]
+>[!TIP]
 >We will enable JA4 signatures later on when we re-install Suricata as part of the process for enabling Lua
 
 For each stream in the PCAP, `JA3` outputs some details about the source and destination and two fingerprints of the server. The `digest` field is what will be used for the next rule we will create. These are easy to include in rules, just specify the `ja3.hash` flag followed by a `content` flag containing that `digest`:
@@ -183,7 +183,7 @@ ln -sf /usr/local/libdata/pkgconfig/lua-5.4.pc /usr/local/libdata/pkgconfig/lua.
 >The file `lauxlib.h` is not misspelled and you may have misread it the first time. Trying to look out for all the other people reading things too quickly like myself.
 
 We're getting close to the end, I promise.  Two more edits to make sure Lua can be found. Still in your new Suricata directory, run `setenv LUA_CFLAGS "-I/usr/local/include/lua5.4"` and `setenv LUA_LIBS "-L/usr/local/lib -llua-5.4"`. These are to set compiler flags in the `Makefile`. Now it's finally time to run configure `./configure --enable-lua --with-lua=/usr/local/lib` followed by `make && make install-full` to complete the setup. Then just restart the service and when `suricata --build-info | grep LUA` is run again, it shows as enabled.
->[!INFO]
+>[!TIP]
 >Some of the absolute paths I have used may be different for you. If you use one and find that it results in an error while running `make`, be sure to re-run `configure` after each adjustment you do before you try and run `make` again. Some errors may require you to go back a step further and run `./autogen.sh` before `configure`. When all else fails, start from the top with `make clean`, followed by `./autogen.sh`, `configure`, and `make`
 
 In addition to Lua being enabled, if you run `suricata --build-info | grep yes` you can see all the enabled components. Among these, `JA4` is there.
