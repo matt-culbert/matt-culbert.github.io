@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'TX-02';
+    src: url('TX-02-Regular.woff2') format('woff2');
+    font-stretch: normal;
+    font-weight: normal;
+    font-style: normal;
+}
+
+// Variable Fonts + Ligatures
+@font-face {
+    font-family: 'TX-02';
+    src: url('TX-02-Regular.woff2') format('woff2');
+    font-stretch: 60 100;
+    font-weight: 100 900;
+    font-style: oblique -16deg 0deg;
+    font-feature-settings: calt;
+    font-variant-ligatures: contextual;
+}
