@@ -23,10 +23,10 @@ timezone:
 
 title: Culbert Report                          # the main title
 
-tagline: A security focused blog   # it will display as the sub-title
+tagline: Offensive security with a dash of becoming a better programmer. Art by Kenton Drumm   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  A repository for my journey through many projects, successes or otherwise
+  Security, programming, and redteaming all roled into one website
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: ''
@@ -35,7 +35,7 @@ github:
   username: matt-culbert             # change to your github username
 
 twitter:
-  username: naw            # change to your twitter username
+  username: mattculbert            # change to your twitter username
 
 social:
   # Change to your full name.
@@ -83,7 +83,7 @@ theme_mode:   # [light|dark]
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: https://3.bp.blogspot.com/-atJv0iuA3gU/YUCwD_JBrVI/AAAAAAAAH3o/7C1nr1L4Dj0AIC4XFpXtIUx-y-Vobp5zwCK4BGAYYCw/w1600/ghostShell2.png
+avatar: /assets/img/thumb.png
 
 # boolean type, the global switch for ToC in posts.
 toc: true

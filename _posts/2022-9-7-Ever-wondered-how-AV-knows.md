@@ -1,3 +1,10 @@
+---
+title: How AV Hooks NTDLL
+date: 2022-09-23
+categories: [low-level,TECHNICAL, offensive-security]
+tags: [redteam]     # TAG names should always be lowercase
+---
+
 # How Does AV Know?
 Have you ever wondered how AV knows what that the application you're trying to run is malicious when it doesn't have a known signature?
 NTDLL is the answer.
