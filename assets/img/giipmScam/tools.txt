@@ -1,4 +1,0 @@
-resourcesExtract.exe to get the icons
-PEview to examine the structure
-any.run for real time examination
-pestudio
