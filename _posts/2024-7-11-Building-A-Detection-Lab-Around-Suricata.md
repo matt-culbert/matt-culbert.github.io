@@ -1,3 +1,16 @@
+<style>
+@font-face {
+  font-family: 'TX-02';
+  src: url('/assets/lib/fonts/TX-02-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'TX-02', sans-serif;
+}
+</style>
+
 # Building A Detection Lab Around Suricata
 
 A while back there were a flurry of posts from different people about how they were configuring their homelabs, rebuilding them to do X better than something else normally used, and automating this and that. My interest was piqued since I hadn't played around with my equipment in a while, so I started writing up a post of my own in order to join the fray. Obviously I had to differentiate myself so I chose to focus on the networking aspect of homelabs and started configuring OPNsense. The original goal wasn't to focus on Suricata, just to briefly mention it before moving on to other things. 
