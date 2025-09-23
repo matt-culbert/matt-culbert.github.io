@@ -9,9 +9,6 @@ cdns:
   # jsDelivr CDN
   - url: https://cdn.jsdelivr.net
 
-# fonts
-  webfonts: /assets/lib/fonts/main.css
-
 # Libraries
 
 jquery:
