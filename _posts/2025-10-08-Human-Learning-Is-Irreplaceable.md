@@ -1,4 +1,4 @@
-<style> @font-face { font-family: 'TX-02'; src: url('/assets/lib/fonts/TX-02-Regular.woff2') format('woff2'); font-weight: normal; font-style: normal; } body { font-family: 'TX-02', sans-serif; } </style> 
+<style> @font-face { font-family: 'TX-02'; src: url('/assets/lib/fonts/TX-02-Regular.woff2') format('woff2'); font-weight: normal; font-style: normal; } body { font-family: 'TX-02', sans-serif; } body{ word-spacing: 4px; }</style> 
 
 What we call "AI" is really just a cancer attacking our ability to learn and we have very little time remaining to carve it out.
 # A note
