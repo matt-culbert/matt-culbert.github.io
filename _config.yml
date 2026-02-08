@@ -23,7 +23,7 @@ timezone:
 
 title: Culbert Report                          # the main title
 
-tagline: Get in loser, we're hating AI and bringing back real learning. Art by Kenton Drumm   # it will display as the sub-title
+tagline: Get in loser, we're hating AI and bringing back real learning. # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   I like writing into the void
@@ -83,7 +83,7 @@ theme_mode:   # [light|dark]
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: /assets/img/thumb.png
+avatar: /assets/img/thumb-alt.jpeg
 
 # boolean type, the global switch for ToC in posts.
 toc: true
