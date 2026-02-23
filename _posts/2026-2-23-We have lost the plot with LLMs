@@ -1,4 +1,4 @@
-# We've seriously lost the plot
+# We've collectively lost the plot
 In IT and security we say that users are the weakest link, but this is no longer true; now, the weakest link is whatever LLM your company is using to act as both a gatekeeper and an oracle for all their users to interact with. I have two issues with enterprise LLM adoption that I want to highlight. 
 1) The nondeterministic nature of agents means that you can't trust them with anything, yet companies are letting them act as gatekeepers? On top of that, one of the most popular coding agents doesn't provide a secure by default configuration. Why are we ok with this?
 2) Everyone deserves better than a pinky promise that the data being processed by these agents isn't also being used to train models, yet countless companies continue to send in their IP and customer data based on nothing more. There must be a better way. Maybe we should call it zero trust architecture?
